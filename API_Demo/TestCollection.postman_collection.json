@@ -1,0 +1,116 @@
+{
+	"info": {
+		"_postman_id": "ddf1beb9-6e85-48bc-8e3e-089f8f67ba71",
+		"name": "TestCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Time addition",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var sum = JSON.parse(responseBody).sum;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/add?timestamp={{ts}}&years={{yrs}}",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"add"
+					],
+					"query": [
+						{
+							"key": "timestamp",
+							"value": "{{ts}}"
+						},
+						{
+							"key": "years",
+							"value": "{{yrs}}"
+						}
+					]
+				},
+				"description": "A simple `GET` request to `/time/add` to add units of time to the specified / current timestamp (as provided in the `years`, `months`, `days`, `hours`, `minutes`, `seconds`, and `milliseconds` query parameters).\n\nThis endpoint accepts `timestamp`, `locale`, `format`, and `strict` query parameters to construct the date time instance to check against.\n\nResponses are provided in JSON format, with a `sum` key to indicate the result. The response code is `200` for valid query parameters, and `400` otherwise.\n\n```\n{\n  sum: \"sum of (provided / current) and provided timestamps\"\n}\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "Leap year check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Comparsion was correct\"] = JSON.parse(responseBody).leap === true;"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}/leap?timestamp={{ts}}",
+					"host": [
+						"{{baseurl}}"
+					],
+					"path": [
+						"leap"
+					],
+					"query": [
+						{
+							"key": "timestamp",
+							"value": "{{ts}}"
+						}
+					]
+				},
+				"description": "A simple `GET` request to `/time/leap` to check if the provided/current timestamp belongs to a leap year.\n\nThis endpoint also accepts `timestamp`, `locale`, `format`, `strict`, and `target` query parameters to construct the date time instance to check against.\n\nResponses are provided in JSON format, with a `leap` key to indicate the result. The response code is `200` for valid query parameters, and `400` otherwise.\n\n```\n{\n  leap: true/false\n}\n```"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "yrs",
+			"value": "100"
+		},
+		{
+			"key": "ts",
+			"value": "2020-10-10"
+		}
+	]
+}
